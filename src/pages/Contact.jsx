@@ -51,7 +51,8 @@ const Contact = () => {
             </h2>
             <div className="w-20 h-1 bg-purple-500 rounded-full mx-auto mt-2"></div>
             <p className="text-gray-400 mt-4 text-lg">
-              Reach out for training sessions, bookings at The Real Boxing Club, Soho Gym, or collaboration inquiries.
+              Reach out for training sessions, bookings at The Real Boxing Club,
+              Soho Gym, or collaboration inquiries.
             </p>
           </motion.div>
 
@@ -64,14 +65,16 @@ const Contact = () => {
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
             >
-              <h3 className="text-2xl font-bold text-purple-500">Contact Info</h3>
+              <h3 className="text-2xl font-bold text-purple-500">
+                Contact Info
+              </h3>
               <p className="text-gray-400">
                 Olivier – Boxing Trainer <br />
                 The Real Boxing Club & Soho Gym <br />
                 Kigali, Rwanda <br />
                 Phone:{" "}
                 <a
-                  href="tel:+250788123456"
+                  href="tel:+250781288442"
                   className="text-purple-400 hover:underline"
                 >
                   +250 788 123 456
@@ -88,16 +91,31 @@ const Contact = () => {
 
               {/* Social Media */}
               <div className="flex items-center space-x-4 mt-4">
-                <a href="#" target="_blank" className="text-purple-500 hover:text-white">
+                <a
+                  href="#"
+                  target="_blank"
+                  className="text-purple-500 hover:text-white"
+                >
                   <Linkedin size={28} />
                 </a>
-                <a href="#" target="_blank" className="text-purple-500 hover:text-white">
+                <a
+                  href="#"
+                  target="_blank"
+                  className="text-purple-500 hover:text-white"
+                >
                   <Twitter size={28} />
                 </a>
-                <a href="#" target="_blank" className="text-purple-500 hover:text-white">
+                <a
+                  href="#"
+                  target="_blank"
+                  className="text-purple-500 hover:text-white"
+                >
                   <Instagram size={28} />
                 </a>
-                <a href="mailto:olivier@boxingclub.com" className="text-purple-500 hover:text-white">
+                <a
+                  href="mailto:olivier@boxingclub.com"
+                  className="text-purple-500 hover:text-white"
+                >
                   <Mail size={28} />
                 </a>
               </div>
@@ -183,13 +201,18 @@ const Contact = () => {
 
         {/* Floating WhatsApp Button */}
         <motion.a
-          href="https://wa.me/250788123456"
+          href="https://wa.me/250781288442"
           target="_blank"
           rel="noopener noreferrer"
           className="fixed bottom-6 right-6 bg-green-500 text-white p-4 rounded-full shadow-2xl"
           style={{ zIndex: 9999 }}
           animate={{ y: [0, -8, 0] }}
-          transition={{ duration: 2, repeat: Infinity, repeatType: "loop", ease: "easeInOut" }}
+          transition={{
+            duration: 2,
+            repeat: Infinity,
+            repeatType: "loop",
+            ease: "easeInOut",
+          }}
           whileHover={{ scale: 1.1, boxShadow: "0 0 25px rgba(0,255,0,0.8)" }}
         >
           <MessageCircle size={28} />
@@ -197,11 +220,17 @@ const Contact = () => {
 
         {/* Floating Call Button */}
         <motion.a
-          href="tel:+250788123456"
+          href="tel:+250781288442"
           className="fixed bottom-20 right-6 bg-purple-500 text-white p-4 rounded-full shadow-2xl"
           style={{ zIndex: 9999 }}
           animate={{ y: [0, -8, 0] }}
-          transition={{ duration: 2, repeat: Infinity, repeatType: "loop", ease: "easeInOut", delay: 0.5 }}
+          transition={{
+            duration: 2,
+            repeat: Infinity,
+            repeatType: "loop",
+            ease: "easeInOut",
+            delay: 0.5,
+          }}
           whileHover={{ scale: 1.1, boxShadow: "0 0 25px rgba(128,0,255,0.8)" }}
         >
           <Phone size={28} />

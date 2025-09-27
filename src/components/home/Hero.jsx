@@ -8,15 +8,15 @@ import { Link } from "react-router-dom";
 const slides = [
   {
     id: 1,
-    bg: "bg-[url('https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=1920&q=80')] bg-cover bg-center",
+    bg: "bg-[url('https://images.unsplash.com/photo-1583473848882-f9a5bc7fd2ee?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] bg-cover bg-center",
   },
   {
     id: 2,
-    bg: "bg-[url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80')] bg-cover bg-center",
+    bg: "bg-[url('https://plus.unsplash.com/premium_photo-1723759241072-50e54b13f5c4?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] bg-cover bg-center",
   },
   {
     id: 3,
-    bg: "bg-[url('https://images.unsplash.com/photo-1522199755839-a2bacb67c546?auto=format&fit=crop&w=1920&q=80')] bg-cover bg-center",
+    bg: "bg-[url('https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] bg-cover bg-center",
   },
 ];
 

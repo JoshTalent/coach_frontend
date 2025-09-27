@@ -1,7 +1,14 @@
 "use client";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Linkedin, Twitter, Instagram, Mail, Phone, MessageCircle } from "lucide-react";
+import {
+  Linkedin,
+  Twitter,
+  Instagram,
+  Mail,
+  Phone,
+  MessageCircle,
+} from "lucide-react";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -56,28 +63,50 @@ const Contact = () => {
             <p className="text-gray-400">
               Okello Studios <br />
               Kigali, Rwanda <br />
-              Phone: <a href="tel:+250788123456" className="text-purple-400 hover:underline">
+              Phone:{" "}
+              <a
+                href="tel:+250781288442"
+                className="text-purple-400 hover:underline"
+              >
                 +250 788 123 456
               </a>
               <br />
               Email:{" "}
-              <a href="mailto:contact@okellostudios.com" className="text-purple-400 hover:underline">
+              <a
+                href="mailto:contact@okellostudios.com"
+                className="text-purple-400 hover:underline"
+              >
                 contact@okellostudios.com
               </a>
             </p>
 
             {/* Social Media */}
             <div className="flex items-center space-x-4 mt-4">
-              <a href="#" target="_blank" className="text-purple-500 hover:text-white">
+              <a
+                href="#"
+                target="_blank"
+                className="text-purple-500 hover:text-white"
+              >
                 <Linkedin size={28} />
               </a>
-              <a href="#" target="_blank" className="text-purple-500 hover:text-white">
+              <a
+                href="#"
+                target="_blank"
+                className="text-purple-500 hover:text-white"
+              >
                 <Twitter size={28} />
               </a>
-              <a href="#" target="_blank" className="text-purple-500 hover:text-white">
+              <a
+                href="#"
+                target="_blank"
+                className="text-purple-500 hover:text-white"
+              >
                 <Instagram size={28} />
               </a>
-              <a href="mailto:contact@okellostudios.com" className="text-purple-500 hover:text-white">
+              <a
+                href="mailto:contact@okellostudios.com"
+                className="text-purple-500 hover:text-white"
+              >
                 <Mail size={28} />
               </a>
             </div>
@@ -148,7 +177,10 @@ const Contact = () => {
 
             <motion.button
               type="submit"
-              whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(128,0,255,0.6)" }}
+              whileHover={{
+                scale: 1.05,
+                boxShadow: "0 0 20px rgba(128,0,255,0.6)",
+              }}
               whileTap={{ scale: 0.95 }}
               className="w-full py-3 font-semibold rounded-full bg-purple-500 text-white shadow-lg hover:bg-purple-600 transition"
             >
@@ -160,7 +192,7 @@ const Contact = () => {
 
       {/* Floating WhatsApp Button */}
       <a
-        href="https://wa.me/250788123456"
+        href="https://wa.me/250781288442"
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-6 right-6 bg-green-500 text-white p-4 rounded-full shadow-xl hover:bg-green-600 transition"
@@ -170,7 +202,7 @@ const Contact = () => {
 
       {/* Floating Call Button */}
       <a
-        href="tel:+250788123456"
+        href="tel:+250781288442"
         className="fixed bottom-20 right-6 bg-purple-500 text-white p-4 rounded-full shadow-xl hover:bg-purple-600 transition"
       >
         <Phone size={28} />

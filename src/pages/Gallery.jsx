@@ -10,43 +10,43 @@ const galleryItems = [
     id: 1,
     type: "image",
     category: "Training",
-    src: "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f",
-    height: "300px",
+    src: "https://plus.unsplash.com/premium_photo-1681400614910-2e80fa375521?q=80&w=1277&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    height: "400px",
   },
   {
     id: 2,
-    type: "video",
+    type: "image",
     category: "Training",
-    src: "https://www.w3schools.com/html/mov_bbb.mp4",
+    src: "https://images.unsplash.com/photo-1660212074310-6d7ed176c746?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     height: "500px",
   },
   {
     id: 3,
     type: "image",
     category: "Events",
-    src: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e",
+    src: "https://images.unsplash.com/photo-1601039834076-c41cf1766d4b?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTB8fGJveGluZ3xlbnwwfHwwfHx8MA%3D%3D",
     height: "400px",
   },
   {
     id: 4,
-    type: "video",
+    type: "image",
     category: "Events",
-    src: "https://www.w3schools.com/html/movie.mp4",
+    src: "https://plus.unsplash.com/premium_photo-1661956568986-df0b2403fd39?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDV8fGJveGluZ3xlbnwwfHwwfHx8MA%3D%3D",
     height: "450px",
   },
   {
     id: 5,
     type: "image",
     category: "Boxers",
-    src: "https://images.unsplash.com/photo-1519985176271-adb1088fa94c",
+    src: "https://images.unsplash.com/photo-1517438322307-e67111335449?q=80&w=871&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     height: "350px",
   },
   {
     id: 6,
     type: "image",
     category: "Training",
-    src: "https://images.unsplash.com/photo-1498050108023-c5249f4df085",
-    height: "500px",
+    src: "https://plus.unsplash.com/premium_photo-1721755999925-8b59f881c6fc?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    height: "350px",
   },
 ];
 
@@ -216,7 +216,7 @@ const Gallery = () => {
 
         {/* Floating WhatsApp Button */}
         <motion.a
-          href="https://wa.me/250788123456"
+          href="https://wa.me/250781288442"
           target="_blank"
           rel="noopener noreferrer"
           className="fixed bottom-6 right-6 bg-green-500 text-white p-4 rounded-full shadow-2xl z-[9999]"
@@ -237,7 +237,7 @@ const Gallery = () => {
 
         {/* Floating Call Button */}
         <motion.a
-          href="tel:+250788123456"
+          href="tel:+250781288442"
           className="fixed bottom-20 right-6 bg-purple-500 text-white p-4 rounded-full shadow-2xl z-[9999]"
           animate={{ y: [0, -8, 0] }}
           transition={{

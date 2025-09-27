@@ -253,7 +253,7 @@ const Pricings = () => {
 
       {/* Floating WhatsApp Button */}
       <motion.a
-        href="https://wa.me/250788123456"
+        href="https://wa.me/250781288442"
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-6 right-6 bg-green-500 text-white p-4 rounded-full shadow-2xl z-[9999]"
@@ -274,7 +274,7 @@ const Pricings = () => {
 
       {/* Floating Call Button */}
       <motion.a
-        href="tel:+250788123456"
+        href="tel:+250781288442"
         className="fixed bottom-20 right-6 bg-purple-500 text-white p-4 rounded-full shadow-2xl z-[9999]"
         animate={{ y: [0, -8, 0] }}
         transition={{
