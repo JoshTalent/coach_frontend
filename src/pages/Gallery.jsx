@@ -1,63 +1,38 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Play, MessageCircle, Phone } from "lucide-react";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
-// Gallery items
-const galleryItems = [
-  {
-    id: 1,
-    type: "image",
-    category: "Training",
-    src: "https://plus.unsplash.com/premium_photo-1681400614910-2e80fa375521?q=80&w=1277&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    height: "400px",
-  },
-  {
-    id: 2,
-    type: "image",
-    category: "Training",
-    src: "https://images.unsplash.com/photo-1660212074310-6d7ed176c746?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    height: "500px",
-  },
-  {
-    id: 3,
-    type: "image",
-    category: "Events",
-    src: "https://images.unsplash.com/photo-1601039834076-c41cf1766d4b?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTB8fGJveGluZ3xlbnwwfHwwfHx8MA%3D%3D",
-    height: "400px",
-  },
-  {
-    id: 4,
-    type: "image",
-    category: "Events",
-    src: "https://plus.unsplash.com/premium_photo-1661956568986-df0b2403fd39?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDV8fGJveGluZ3xlbnwwfHwwfHx8MA%3D%3D",
-    height: "450px",
-  },
-  {
-    id: 5,
-    type: "image",
-    category: "Boxers",
-    src: "https://images.unsplash.com/photo-1517438322307-e67111335449?q=80&w=871&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    height: "350px",
-  },
-  {
-    id: 6,
-    type: "image",
-    category: "Training",
-    src: "https://plus.unsplash.com/premium_photo-1721755999925-8b59f881c6fc?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    height: "350px",
-  },
-];
-
-// Filters
 const filters = ["All", "Images", "Videos", "Training", "Events", "Boxers"];
 
 const Gallery = () => {
+  const [items, setItems] = useState([]);
   const [selected, setSelected] = useState(null);
   const [filter, setFilter] = useState("All");
+  const [loading, setLoading] = useState(true);
 
-  const filteredItems = galleryItems.filter((item) =>
+  // Fetch gallery from backend
+  useEffect(() => {
+    const fetchGallery = async () => {
+      try {
+        const res = await fetch("https://coach-backend-c70n.onrender.com/gallery");
+        const data = await res.json();
+        console.log("API Response:", data);
+        // ✅ store only the array part
+        setItems(data.data || []);
+      } catch (err) {
+        console.error("Error fetching gallery:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchGallery();
+  }, []);
+
+  // Apply filters
+  const filteredItems = items.filter((item) =>
     filter === "All"
       ? true
       : filter === "Images"
@@ -138,46 +113,53 @@ const Gallery = () => {
             ))}
           </div>
 
-          {/* Masonry Grid */}
-          <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
-            <AnimatePresence>
-              {filteredItems.map((item, idx) => (
-                <motion.div
-                  key={item.id}
-                  className="relative rounded-3xl shadow-xl overflow-hidden break-inside-avoid border border-gray-800 bg-white/5 backdrop-blur-lg cursor-pointer"
-                  layout
-                  initial={{ opacity: 0, y: 50 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 50 }}
-                  whileHover={{ scale: 1.05, rotate: idx % 2 === 0 ? 1 : -1 }}
-                  transition={{ duration: 0.6 }}
-                  onClick={() => setSelected(item)}
-                  style={{ height: item.height }}
-                >
-                  <div className="relative w-full h-full bg-black rounded-3xl overflow-hidden">
-                    {item.type === "image" ? (
-                      <img
-                        src={item.src}
-                        alt={`Gallery ${item.id}`}
-                        className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-                      />
-                    ) : (
-                      <div className="relative w-full h-full">
-                        <video
+          {/* Gallery Grid */}
+          {loading ? (
+            <p className="text-center text-gray-400">Loading gallery...</p>
+          ) : filteredItems.length === 0 ? (
+            <p className="text-center text-gray-400">No items found.</p>
+          ) : (
+            <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
+              <AnimatePresence>
+                {filteredItems.map((item, idx) => (
+                  <motion.div
+                    key={item._id}
+                    className="relative rounded-3xl shadow-xl overflow-hidden break-inside-avoid border border-gray-800 bg-white/5 backdrop-blur-lg cursor-pointer"
+                    layout
+                    initial={{ opacity: 0, y: 50 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 50 }}
+                    whileHover={{ scale: 1.05, rotate: idx % 2 === 0 ? 1 : -1 }}
+                    transition={{ duration: 0.6 }}
+                    onClick={() => setSelected(item)}
+                    style={{ height: item.height }}
+                  >
+                    <div className="relative w-full h-full bg-black rounded-3xl overflow-hidden">
+                      {item.type === "image" ? (
+                        <img
                           src={item.src}
-                          muted
-                          loop
-                          className="w-full h-full object-cover"
+                          alt={item.title || `Gallery ${item._id}`}
+                          className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                         />
-                        <Play className="absolute inset-0 m-auto w-12 h-12 text-white opacity-70 pointer-events-none" />
-                      </div>
-                    )}
-                  </div>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </div>
+                      ) : (
+                        <div className="relative w-full h-full">
+                          <video
+                            src={item.src}
+                            muted
+                            loop
+                            className="w-full h-full object-cover"
+                          />
+                          <Play className="absolute inset-0 m-auto w-12 h-12 text-white opacity-70 pointer-events-none" />
+                        </div>
+                      )}
+                    </div>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </div>
+          )}
         </div>
+    
 
         {/* Modal / Lightbox */}
         <AnimatePresence>
@@ -213,6 +195,7 @@ const Gallery = () => {
             </motion.div>
           )}
         </AnimatePresence>
+            <Footer />
 
         {/* Floating WhatsApp Button */}
         <motion.a

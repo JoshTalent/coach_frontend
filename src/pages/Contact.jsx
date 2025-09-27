@@ -1,16 +1,13 @@
 "use client";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import {
-  Linkedin,
-  Twitter,
-  Instagram,
-  Mail,
-  Phone,
-  MessageCircle,
-} from "lucide-react";
+import { Linkedin, Twitter, Instagram, Mail, Phone, MessageCircle } from "lucide-react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import axios from "axios";
+
+// Backend API URL
+const API_URL = "https://coach-backend-c70n.onrender.com";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -19,17 +16,34 @@ const Contact = () => {
     subject: "",
     message: "",
   });
+  const [status, setStatus] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Contact Form Data:", formData);
-    alert("Thank you! Your message has been sent to Olivier.");
-    setFormData({ name: "", email: "", subject: "", message: "" });
+    setLoading(true);
+    setStatus(null);
+
+    try {
+      const res = await axios.post(`${API_URL}/contact`, formData);
+
+      if (res.data.success) {
+        setStatus({ type: "success", message: "Message sent successfully!" });
+        setFormData({ name: "", email: "", subject: "", message: "" });
+      } else {
+        setStatus({ type: "error", message: res.data.message || "Failed to send message." });
+      }
+    } catch (err) {
+      console.error(err);
+      setStatus({ type: "error", message: "Something went wrong. Please try again." });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -65,57 +79,34 @@ const Contact = () => {
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
             >
-              <h3 className="text-2xl font-bold text-purple-500">
-                Contact Info
-              </h3>
+              <h3 className="text-2xl font-bold text-purple-500">Contact Info</h3>
               <p className="text-gray-400">
                 Olivier – Boxing Trainer <br />
                 The Real Boxing Club & Soho Gym <br />
                 Kigali, Rwanda <br />
                 Phone:{" "}
-                <a
-                  href="tel:+250781288442"
-                  className="text-purple-400 hover:underline"
-                >
+                <a href="tel:+250781288442" className="text-purple-400 hover:underline">
                   +250 788 123 456
                 </a>
                 <br />
                 Email:{" "}
-                <a
-                  href="mailto:olivier@boxingclub.com"
-                  className="text-purple-400 hover:underline"
-                >
+                <a href="mailto:olivier@boxingclub.com" className="text-purple-400 hover:underline">
                   olivier@boxingclub.com
                 </a>
               </p>
 
               {/* Social Media */}
               <div className="flex items-center space-x-4 mt-4">
-                <a
-                  href="#"
-                  target="_blank"
-                  className="text-purple-500 hover:text-white"
-                >
+                <a href="#" target="_blank" className="text-purple-500 hover:text-white">
                   <Linkedin size={28} />
                 </a>
-                <a
-                  href="#"
-                  target="_blank"
-                  className="text-purple-500 hover:text-white"
-                >
+                <a href="#" target="_blank" className="text-purple-500 hover:text-white">
                   <Twitter size={28} />
                 </a>
-                <a
-                  href="#"
-                  target="_blank"
-                  className="text-purple-500 hover:text-white"
-                >
+                <a href="#" target="_blank" className="text-purple-500 hover:text-white">
                   <Instagram size={28} />
                 </a>
-                <a
-                  href="mailto:olivier@boxingclub.com"
-                  className="text-purple-500 hover:text-white"
-                >
+                <a href="mailto:olivier@boxingclub.com" className="text-purple-500 hover:text-white">
                   <Mail size={28} />
                 </a>
               </div>
@@ -143,6 +134,16 @@ const Contact = () => {
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
             >
+              {status && (
+                <div
+                  className={`p-4 rounded-xl text-center ${
+                    status.type === "success" ? "bg-green-600 text-black" : "bg-red-600 text-white"
+                  }`}
+                >
+                  {status.message}
+                </div>
+              )}
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <input
                   type="text"
@@ -186,14 +187,12 @@ const Contact = () => {
 
               <motion.button
                 type="submit"
-                whileHover={{
-                  scale: 1.05,
-                  boxShadow: "0 0 20px rgba(128,0,255,0.6)",
-                }}
+                disabled={loading}
+                whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(128,0,255,0.6)" }}
                 whileTap={{ scale: 0.95 }}
                 className="w-full py-3 font-semibold rounded-full bg-purple-500 text-white shadow-lg hover:bg-purple-600 transition"
               >
-                Send Message
+                {loading ? "Sending..." : "Send Message"}
               </motion.button>
             </motion.form>
           </div>
@@ -207,12 +206,7 @@ const Contact = () => {
           className="fixed bottom-6 right-6 bg-green-500 text-white p-4 rounded-full shadow-2xl"
           style={{ zIndex: 9999 }}
           animate={{ y: [0, -8, 0] }}
-          transition={{
-            duration: 2,
-            repeat: Infinity,
-            repeatType: "loop",
-            ease: "easeInOut",
-          }}
+          transition={{ duration: 2, repeat: Infinity, repeatType: "loop", ease: "easeInOut" }}
           whileHover={{ scale: 1.1, boxShadow: "0 0 25px rgba(0,255,0,0.8)" }}
         >
           <MessageCircle size={28} />

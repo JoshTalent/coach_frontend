@@ -1,15 +1,16 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import axios from "axios";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
+// Backend URL stored in a variable
+const API_BASE_URL = "https://coach-backend-c70n.onrender.com";
+
 const services = [
   "Boxing Training",
-  "Personal Coaching",
-  "Photography",
-  "Video Production",
-  "Social Media Content",
+  "Personal Coaching"
 ];
 
 const Booking = ({ defaultService }) => {
@@ -23,6 +24,8 @@ const Booking = ({ defaultService }) => {
     time: "",
     message: "",
   });
+  const [status, setStatus] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (defaultService) {
@@ -38,22 +41,41 @@ const Booking = ({ defaultService }) => {
   const nextStep = () => setStep((prev) => Math.min(prev + 1, 3));
   const prevStep = () => setStep((prev) => Math.max(prev - 1, 1));
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Booking Data:", formData);
-    alert(
-      `Thank you! Your booking for ${formData.service} with Coach Olivier has been submitted.`
-    );
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      service: defaultService || "",
-      date: "",
-      time: "",
-      message: "",
-    });
-    setStep(1);
+    setLoading(true);
+    setStatus(null);
+
+    try {
+      const response = await axios.post(`${API_BASE_URL}/booking`, formData);
+
+      if (response.data.success) {
+        setStatus({ type: "success", message: "Booking submitted successfully!" });
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          service: defaultService || "",
+          date: "",
+          time: "",
+          message: "",
+        });
+        setStep(1);
+      } else {
+        setStatus({
+          type: "error",
+          message: response.data.message || "Failed to submit booking.",
+        });
+      }
+    } catch (err) {
+      console.error(err);
+      setStatus({
+        type: "error",
+        message: "Something went wrong. Please try again.",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -61,13 +83,7 @@ const Booking = ({ defaultService }) => {
       <Navbar />
       <section className="relative py-24 bg-black text-white min-h-screen">
         <div className="max-w-5xl mx-auto px-6">
-          {/* Header */}
-          <motion.div
-            className="text-center mb-12"
-            initial={{ y: -20, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8 }}
-          >
+          <motion.div className="text-center mb-12">
             <h2 className="text-4xl md:text-5xl font-extrabold text-purple-500 uppercase">
               Book a Session with Olivier
             </h2>
@@ -77,34 +93,25 @@ const Booking = ({ defaultService }) => {
             </p>
           </motion.div>
 
-          {/* Progress Bar */}
-          <div className="flex justify-between items-center mb-8">
-            {[1, 2, 3].map((s) => (
-              <motion.div
-                key={s}
-                className={`w-1/3 h-2 rounded-full mx-1 ${
-                  step >= s ? "bg-purple-500" : "bg-gray-700"
-                }`}
-                layout
-              />
-            ))}
-          </div>
+          {status && (
+            <div
+              className={`mb-6 p-4 rounded-xl text-center ${
+                status.type === "success"
+                  ? "bg-green-600 text-black"
+                  : "bg-red-600 text-white"
+              }`}
+            >
+              {status.message}
+            </div>
+          )}
 
           <motion.form
             className="bg-gray-900 rounded-3xl shadow-2xl p-8 space-y-6"
             onSubmit={handleSubmit}
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.8 }}
           >
-            {/* Step 1: Personal Info */}
+            {/* Step 1 */}
             {step === 1 && (
-              <motion.div
-                initial={{ opacity: 0, x: -50 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 50 }}
-                className="grid grid-cols-1 md:grid-cols-2 gap-6"
-              >
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <input
                   type="text"
                   name="name"
@@ -132,17 +139,12 @@ const Booking = ({ defaultService }) => {
                   required
                   className="w-full p-3 rounded-xl bg-gray-800 border border-gray-700 text-white focus:outline-none focus:border-purple-500 transition"
                 />
-              </motion.div>
+              </div>
             )}
 
-            {/* Step 2: Select Service & Date/Time */}
+            {/* Step 2 */}
             {step === 2 && (
-              <motion.div
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -50 }}
-                className="space-y-6"
-              >
+              <div className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {services.map((s, idx) => (
                     <div
@@ -176,16 +178,12 @@ const Booking = ({ defaultService }) => {
                     className="w-full p-3 rounded-xl bg-gray-800 border border-gray-700 text-white focus:outline-none focus:border-purple-500 transition"
                   />
                 </div>
-              </motion.div>
+              </div>
             )}
 
-            {/* Step 3: Additional Message & Confirmation */}
+            {/* Step 3 */}
             {step === 3 && (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-              >
+              <div>
                 <textarea
                   name="message"
                   placeholder="Additional Details (Optional)"
@@ -196,29 +194,16 @@ const Booking = ({ defaultService }) => {
                 />
                 <div className="mt-4 bg-gray-800 rounded-xl p-4">
                   <h4 className="text-purple-500 font-bold mb-2">Summary</h4>
-                  <p>
-                    <strong>Service:</strong> {formData.service}
-                  </p>
-                  <p>
-                    <strong>Date:</strong> {formData.date}
-                  </p>
-                  <p>
-                    <strong>Time:</strong> {formData.time}
-                  </p>
-                  <p>
-                    <strong>Name:</strong> {formData.name}
-                  </p>
-                  <p>
-                    <strong>Email:</strong> {formData.email}
-                  </p>
-                  <p>
-                    <strong>Phone:</strong> {formData.phone}
-                  </p>
+                  <p><strong>Service:</strong> {formData.service}</p>
+                  <p><strong>Date:</strong> {formData.date}</p>
+                  <p><strong>Time:</strong> {formData.time}</p>
+                  <p><strong>Name:</strong> {formData.name}</p>
+                  <p><strong>Email:</strong> {formData.email}</p>
+                  <p><strong>Phone:</strong> {formData.phone}</p>
                 </div>
-              </motion.div>
+              </div>
             )}
 
-            {/* Navigation Buttons */}
             <div className="flex justify-between mt-6">
               {step > 1 && (
                 <button
@@ -240,14 +225,12 @@ const Booking = ({ defaultService }) => {
               ) : (
                 <motion.button
                   type="submit"
-                  whileHover={{
-                    scale: 1.05,
-                    boxShadow: "0 0 20px rgba(128,0,255,0.6)",
-                  }}
+                  disabled={loading}
+                  whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(128,0,255,0.6)" }}
                   whileTap={{ scale: 0.95 }}
                   className="ml-auto px-6 py-2 rounded-full bg-purple-500 text-white shadow-lg hover:bg-purple-600 transition"
                 >
-                  Submit Booking
+                  {loading ? "Submitting..." : "Submit Booking"}
                 </motion.button>
               )}
             </div>

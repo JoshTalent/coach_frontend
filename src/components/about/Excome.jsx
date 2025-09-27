@@ -6,13 +6,13 @@ const excomMembers = [
   {
     id: 1,
     name: "Olivier Niyigena",
-    role: "Founder & Coach",
+    role: "Owner & Coach",
     phone: "+250 781 288 442",
   },
   {
     id: 2,
     name: "Josue Ntwari",
-    role: "Assistant",
+    role: "Assistant ",
     phone: "+250 788 234 567",
   }
 ];
